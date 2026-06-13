@@ -166,7 +166,7 @@ async function appendExpense({ date, item, category, amount, notes = '', jonlia 
   await sheets.spreadsheets.values.append({
     spreadsheetId: SHEET_ID,
     range: `${SHEET_NAME}!A:F`,
-    valueInputOption: 'USER_ENTERED',
+    valueInputOption: 'RAW',
     insertDataOption: 'INSERT_ROWS',
     requestBody: {
       values: [[date, item, category, amount, notes, normaliseJonlia(jonlia)]],
