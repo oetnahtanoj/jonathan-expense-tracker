@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/28905657/README.md)
+[README.md](https://github.com/user-attachments/files/28905730/README.md)
 # Jonathan Expense Tracker Render App
 
 Telegram + dashboard expense tracker using Render, Express, and Google Sheets.
@@ -117,3 +117,12 @@ Recommended Sheet formatting:
 - Select column A.
 - Format → Number → Plain text.
 - Existing serial values may need manual correction.
+
+
+## Fixed Jonlia colour update
+
+This version gives the `jonlia` slice in the `Spending by Category` pie chart a fixed unique colour:
+
+- Jonlia in Spending by Category: #ff3b30
+
+The separate `Jonlia Breakdown` chart is not affected. It continues to colour by the original category breakdown.
