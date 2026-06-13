@@ -33,10 +33,6 @@ const ALLOWED_CHAT_IDS = (process.env.ALLOWED_CHAT_IDS || '')
   .map(id => id.trim())
   .filter(Boolean);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Google Sheets auth
-// ─────────────────────────────────────────────────────────────────────────────
-
 function getAuthClient() {
   if (process.env.GOOGLE_CREDENTIALS_JSON) {
     const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
@@ -75,10 +71,6 @@ async function ensureSheetHeaders() {
     },
   });
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────────────────
 
 function sgtToday() {
   return new Date(
@@ -156,10 +148,6 @@ function displayGroupForRow(row) {
   return normaliseCategory(category) || 'others';
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Google Sheets data functions
-// ─────────────────────────────────────────────────────────────────────────────
-
 async function getAllRows() {
   const sheets = await getSheetsClient();
 
@@ -232,10 +220,6 @@ async function deleteExpenseByDataRowIndex(rowIndex) {
   return rows;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SSE live dashboard updates
-// ─────────────────────────────────────────────────────────────────────────────
-
 const sseClients = new Set();
 let lastSnapshot = '';
 
@@ -282,10 +266,6 @@ app.get('/stream', async (req, res) => {
     sseClients.delete(res);
   });
 });
-
-// ─────────────────────────────────────────────────────────────────────────────
-// REST endpoints for dashboard
-// ─────────────────────────────────────────────────────────────────────────────
 
 app.get('/health', (req, res) => {
   res.json({
@@ -396,10 +376,6 @@ app.delete('/delete-expense', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Telegram bot
-// ─────────────────────────────────────────────────────────────────────────────
 
 let bot;
 
@@ -714,10 +690,6 @@ async function handleExpenseMessage(chatId, text) {
     `✅ Added: ${item} | ${groupLabel} | $${amount.toFixed(2)} on ${formatDateForReply(date)}`
   );
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Startup
-// ─────────────────────────────────────────────────────────────────────────────
 
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
