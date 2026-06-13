@@ -743,6 +743,13 @@
       </div>
 
       <div class="chart-card">
+        <h3>Jonlia Breakdown</h3>
+        <div class="chart-wrap">
+          <canvas id="jonliaPieChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
         <h3>Cumulative Trend — This Month</h3>
         <div class="chart-wrap">
           <canvas id="lineChart"></canvas>
@@ -829,6 +836,7 @@
 
     let allRows = [];
     let pieChart;
+    let jonliaPieChart;
     let lineChart;
     let barChart;
     let toastTimer;
@@ -921,6 +929,7 @@
       const total = monthRows.reduce((sum, row) => sum + row.amount, 0);
 
       const byCategory = buildCategoryTotals(monthRows);
+      const jonliaBreakdownRows = buildJonliaBreakdown(monthRows);
       const cumulativeRows = buildCumulativeRows(monthRows, ym);
       const monthlyCategoryTotals = buildMonthlyCategoryTotals(yearRows, year);
       const monthlyTotals = buildMonthlyTotals(monthlyCategoryTotals);
@@ -929,6 +938,7 @@
 
       renderTable(monthRows, ym, total);
       renderPie(byCategory);
+      renderJonliaPie(jonliaBreakdownRows);
       renderLine(cumulativeRows);
       renderBar(monthlyTotals, monthlyCategoryTotals);
     }
@@ -963,6 +973,28 @@
         .map(group => ({
           category: group,
           amount: totals[group]
+        }))
+        .filter(row => row.amount > 0);
+    }
+
+    function buildJonliaBreakdown(rows) {
+      const totals = {};
+
+      CATEGORIES.forEach(category => {
+        totals[category] = 0;
+      });
+
+      rows
+        .filter(row => row.group === 'jonlia')
+        .forEach(row => {
+          const category = CATEGORIES.includes(row.category) ? row.category : 'others';
+          totals[category] += row.amount;
+        });
+
+      return CATEGORIES
+        .map(category => ({
+          category,
+          amount: totals[category]
         }))
         .filter(row => row.amount > 0);
     }
@@ -1105,6 +1137,52 @@
       }
 
       pieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: rows.map(row => row.category),
+          datasets: [{
+            data: rows.map(row => row.amount),
+            backgroundColor: rows.map((_, index) => PALETTE[index % PALETTE.length]),
+            borderWidth: 2,
+            borderColor: '#1a1d27'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: window.innerWidth <= 430 ? 'bottom' : 'right',
+              labels: {
+                color: '#e2e8f0',
+                font: { size: 12 },
+                boxWidth: 12
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: context => ' ' + formatter.format(context.parsed)
+              }
+            }
+          },
+          cutout: '60%'
+        }
+      });
+    }
+
+    function renderJonliaPie(rows) {
+      const ctx = document.getElementById('jonliaPieChart').getContext('2d');
+
+      if (jonliaPieChart) {
+        jonliaPieChart.destroy();
+      }
+
+      if (!rows.length) {
+        clearCanvas(ctx);
+        return;
+      }
+
+      jonliaPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: rows.map(row => row.category),
