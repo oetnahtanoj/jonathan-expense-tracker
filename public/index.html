@@ -816,7 +816,7 @@
   <div class="toast hide" id="toast"></div>
 
   <script>
-    const CATEGORIES = ['food', 'travel', 'car', 'transport', 'shopping', 'others'];
+    const CATEGORIES = ['food', 'groceries', 'travel', 'car', 'transport', 'shopping', 'others'];
     const BREAKDOWN_GROUPS = [...CATEGORIES, 'jonlia'];
 
     const PALETTE = [
@@ -1099,9 +1099,9 @@
           <tr>
             <td data-label="Date">${escHtml(row.date)}</td>
             <td data-label="Item">${escHtml(row.item)}</td>
-            <td data-label="Category">${escHtml(row.category)}</td>
+            <td data-label="Category">${escHtml(titleCase(row.category))}</td>
             <td data-label="Group">
-              <span class="cat-badge" style="${categoryStyle(row.group)}">${escHtml(row.group)}</span>
+              <span class="cat-badge" style="${categoryStyle(row.group)}">${escHtml(titleCase(row.group))}</span>
             </td>
             <td data-label="Notes">${escHtml(row.notes)}</td>
             <td data-label="Amount" class="amount-cell">${formatter.format(row.amount)}</td>
@@ -1139,7 +1139,7 @@
       pieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: rows.map(row => row.category),
+          labels: rows.map(row => titleCase(row.category)),
           datasets: [{
             data: rows.map(row => row.amount),
             backgroundColor: rows.map((_, index) => PALETTE[index % PALETTE.length]),
@@ -1185,7 +1185,7 @@
       jonliaPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: rows.map(row => row.category),
+          labels: rows.map(row => titleCase(row.category)),
           datasets: [{
             data: rows.map(row => row.amount),
             backgroundColor: rows.map((_, index) => PALETTE[index % PALETTE.length]),
@@ -1289,7 +1289,7 @@
       const groupsToShow = activeGroups.length ? activeGroups : BREAKDOWN_GROUPS;
 
       const datasets = groupsToShow.map((group, index) => ({
-        label: group,
+        label: titleCase(group),
         data: monthKeys.map(monthKey => Number(monthlyCategoryTotals[monthKey][group] || 0)),
         backgroundColor: PALETTE[index % PALETTE.length] + 'cc',
         borderRadius: 6
@@ -1343,11 +1343,19 @@
       });
     }
 
+    function titleCase(value) {
+      return String(value || '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+    }
+
     function renderManualCategoryOptions(categories) {
       const select = document.getElementById('manualCategory');
 
       select.innerHTML = categories.map(category => {
-        return '<option value="' + escHtml(category) + '">' + escHtml(category) + '</option>';
+        return '<option value="' + escHtml(category) + '">' + escHtml(titleCase(category)) + '</option>';
       }).join('');
     }
 
