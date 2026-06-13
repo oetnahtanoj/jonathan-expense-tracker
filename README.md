@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/28905610/README.md)
+[README.md](https://github.com/user-attachments/files/28905657/README.md)
 # Jonathan Expense Tracker Render App
 
 Telegram + dashboard expense tracker using Render, Express, and Google Sheets.
@@ -103,3 +103,17 @@ Frontend display uses Title Case:
 - Jonlia
 
 Monthly Breakdown legends and pie chart labels are also shown in Title Case.
+
+
+## Date serial fix
+
+This version changes Google Sheets append writes from `USER_ENTERED` to `RAW`.
+
+Why:
+- Google Sheets can convert `2026-06-01` into a date serial such as `46174`.
+- Using `RAW` keeps the date stored as the exact text value `2026-06-01`.
+
+Recommended Sheet formatting:
+- Select column A.
+- Format → Number → Plain text.
+- Existing serial values may need manual correction.
