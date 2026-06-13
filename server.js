@@ -16,6 +16,7 @@ const SHEET_NAME = process.env.GOOGLE_SHEET_NAME || 'Expenses';
 
 const CATEGORIES = [
   'food',
+  'groceries',
   'travel',
   'car',
   'transport',
