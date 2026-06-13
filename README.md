@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/28905388/README.md)
 # Jonathan Expense Tracker Render App
 
 Telegram + dashboard expense tracker using Render, Express, and Google Sheets.
@@ -49,12 +50,16 @@ Petrol, car, 80, jonlia, weekend trip
 
 ## Dashboard grouping
 
-If the Jonlia column is marked as `jonlia`, the amount is grouped under `jonlia` in:
+The dashboard includes two pie charts:
 
-- Spending by Category
-- Monthly Breakdown — This Year
+1. Spending by Category
+   - Normal categories plus `jonlia` as one top-level bucket.
 
-Otherwise, it is grouped under its normal category.
+2. Jonlia Breakdown
+   - Only expenses marked as `jonlia`.
+   - Breaks Jonlia spending down by original category: food, travel, car, transport, shopping, others.
+
+Monthly Breakdown — This Year still groups all Jonlia spending as one `jonlia` stacked category.
 
 ## Render settings
 
