@@ -829,6 +829,8 @@
       '#f87171'
     ];
 
+    const JONLIA_SPENDING_COLOUR = '#ff3b30';
+
     const formatter = new Intl.NumberFormat('en-SG', {
       style: 'currency',
       currency: 'SGD'
@@ -1142,7 +1144,11 @@
           labels: rows.map(row => titleCase(row.category)),
           datasets: [{
             data: rows.map(row => row.amount),
-            backgroundColor: rows.map((_, index) => PALETTE[index % PALETTE.length]),
+            backgroundColor: rows.map((row, index) => {
+              return row.category === 'jonlia'
+                ? JONLIA_SPENDING_COLOUR
+                : PALETTE[index % PALETTE.length];
+            }),
             borderWidth: 2,
             borderColor: '#1a1d27'
           }]
