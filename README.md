@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/28905388/README.md)
+[README.md](https://github.com/user-attachments/files/28905610/README.md)
 # Jonathan Expense Tracker Render App
 
 Telegram + dashboard expense tracker using Render, Express, and Google Sheets.
@@ -28,7 +28,7 @@ Date | Item | Category | Amount (SGD) | Notes | Jonlia
 
 ## Categories
 
-food, travel, car, transport, shopping, others
+food, groceries, travel, car, transport, shopping, others
 
 ## Telegram input format
 
@@ -57,7 +57,7 @@ The dashboard includes two pie charts:
 
 2. Jonlia Breakdown
    - Only expenses marked as `jonlia`.
-   - Breaks Jonlia spending down by original category: food, travel, car, transport, shopping, others.
+   - Breaks Jonlia spending down by original category: food, groceries, travel, car, transport, shopping, others.
 
 Monthly Breakdown — This Year still groups all Jonlia spending as one `jonlia` stacked category.
 
@@ -81,3 +81,25 @@ TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 ALLOWED_CHAT_IDS=your_telegram_chat_id
 PUBLIC_URL=https://your-app-name.onrender.com
 GOOGLE_CREDENTIALS_JSON=your_service_account_json_as_one_line
+
+
+## Groceries and Title Case update
+
+This version adds the category:
+
+- groceries
+
+Stored values remain lowercase in Google Sheets and Telegram input.
+
+Frontend display uses Title Case:
+
+- Food
+- Groceries
+- Travel
+- Car
+- Transport
+- Shopping
+- Others
+- Jonlia
+
+Monthly Breakdown legends and pie chart labels are also shown in Title Case.
