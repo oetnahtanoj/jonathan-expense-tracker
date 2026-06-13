@@ -1,6 +1,6 @@
 {
   "name": "jonathan-expense-tracker-render",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Jonathan expense tracker using Telegram, Render, Express, and Google Sheets.",
   "main": "server.js",
   "scripts": {
